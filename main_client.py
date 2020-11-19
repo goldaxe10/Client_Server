@@ -1,25 +1,33 @@
 import socket
 import os
-import datetime
 import time
 
-def start_script():
+def start_script(path_to_folder='C:\\1'):
     while True:
-        if len(os.listdir(path_to_folder)) == 0:
-            print('Объекты не найдены')
-        else:
-            for files in (os.listdir(path_to_folder)):
-                os.chdir(path_to_folder)
-                print('Объект найден -->', files, datetime.datetime.fromtimestamp(os.path.getctime(files)).strftime('[%d %B, %Y, %H:%M:%S]')) 
+        if len(os.listdir(path_to_folder)) != 0:
+            time.sleep(2)
+            cnt_of_files = len(os.listdir(path_to_folder))
+            client_message = 'Error! ' + 'найдено файлов: ' + str(cnt_of_files)
             break
-        time.sleep(5)
+    return client_message
 
-path_to_folder = ('C:\\1')
-#start_script()
-
+hostname = 'DESKTOP-24EDK13'
+port = 5000
+sock_recv = 4096
+#hostname = socket.gethostname()
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.connect(('DESKTOP-24EDK13', 5000))
-x = input().encode('utf-8')
-server_socket.send(x)
+server_socket.connect((hostname, port))
+server_message = server_socket.recv(sock_recv)
+
+if server_message.decode('utf-8') == 'start_scan':
+    print('start_scan')
+
+    message_start_script = start_script()
+    print(message_start_script)
+    server_socket.send(message_start_script.encode())
+else:
+    server_socket.send('uknow_request'.encode())
+    print('uknow_request')
+
 server_socket.close()
