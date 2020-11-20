@@ -11,7 +11,7 @@ def start_script(path_to_folder='C:\\1'):
             break
     return client_message
 
-hostname = 'DESKTOP-24EDK13'
+hostname = 'MASTER-PC01'
 port = 5000
 sock_recv = 4096
 stand_host_name = socket.gethostname()
