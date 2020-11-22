@@ -1,6 +1,7 @@
 import socketserver
 import os
 import subprocess
+import datetime
 
 
 class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -8,14 +9,19 @@ class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
 
 class EchoTCPHandler(socketserver.BaseRequestHandler):
+    datetoday = datetime.datetime.today().strftime(
+        "%d-%m-%Y_%Hh%Mm%Ss")  # + "_" + datetime.datetime.today().strftime("%H:%M:%S")
 
     def handle(self):
-        #data = b'start_scan'
-        #print(' Send to client: {}'.format(data.decode()))
-        #self.request.sendall(data)
+        datetoday = datetime.datetime.today().strftime(
+            "%d-%m-%Y_%Hh%Mm%Ss")  # + "_" + datetime.datetime.today().strftime("%H:%M:%S")
+
         client_response = self.request.recv(1024)  # .strip()
-        print(' Response from client: {}'.format(self.client_address[0]), '\n',
-              'Message: {}'.format(client_response.decode('utf-8')))
+        message_from_client = ' Response from client: {}'.format(self.client_address[0]) + '\n' + 'Message: {}'.format(
+            client_response.decode('utf-8')) + '\n'
+        print(message_from_client)
+        with open('D:\Github\Client_Server\logs\log.log', 'a') as logs:
+            logs.write(datetoday + message_from_client + '\n')
 
 
 if __name__ == "__main__":
