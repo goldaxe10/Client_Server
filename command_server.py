@@ -8,14 +8,16 @@ class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
 
 class EchoTCPHandler(socketserver.BaseRequestHandler):
+    print("Please enter the command: start_scan for scanning files in target directory: ", end='')
     #psexec = r'D:\Github\Client_Server\PsExec64.exe'
     #subprocess.call(
         #[psexec,'DESKTOP-24EDK13' , '-i', '-s', '-h', '-d', 'defrag', 'C:', '/D'])
 
     def handle(self):
-        data = b'start_scan'
-        print(' Send to client: {}'.format(data.decode()))
-        self.request.sendall(data)
+        command = input().encode()
+        #data = b'start_scan'
+        print(' Send to client: {}'.format(command.decode()))
+        self.request.sendall(command)
         client_response = self.request.recv(1024)  # .strip()
         print(' Response from client: {}'.format(self.client_address[0]), '\n',
               'Message: {}'.format(client_response.decode('utf-8')))
