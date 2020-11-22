@@ -24,7 +24,7 @@ def start_scan(path_to_folder=r'C:\1'):
         if len(os.listdir(path_to_folder)) != 0:
             time.sleep(2)
             cnt_of_files = len(os.listdir(path_to_folder))
-            client_message = 'Warning! ' + 'найдено файлов: ' + str(cnt_of_files)
+            client_message = ' Warning! ' + 'найдено файлов: {} '.format(cnt_of_files)
             break
     return client_message
 
@@ -39,10 +39,10 @@ def start_script():
             print('start_scan')
             message_start_script = start_scan(path_to_folder)
             print(message_start_script)
-            message_to_message_server = message_start_script.encode() + ' from stand {}'.format(stand_host_name).encode()
+            message_to_message_server = stand_host_name.encode() + message_start_script.encode()
             connect_to_message_server('DESKTOP-24EDK13', 5001, message_to_message_server)
         else:
-            message = b'unknown_request'
+            message = stand_host_name.encode() + b': unknown_request from command server: ' + connection_message
             connect_to_message_server('DESKTOP-24EDK13', 5001, message)
             print('unknown_request: "{}"'.format(connection_message.decode('utf-8')))
 
