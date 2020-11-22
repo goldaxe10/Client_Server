@@ -1,6 +1,5 @@
 import socketserver
 import os
-import subprocess
 
 
 class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -8,15 +7,13 @@ class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
 
 class EchoTCPHandler(socketserver.BaseRequestHandler):
-    #psexec = r'D:\Github\Client_Server\PsExec64.exe'
-    #subprocess.call([psexec, r'\\DESKTOP-24EDK13', '-i', '-s', '-h', '-d', r'D:\Github\Client_Server\threadClient.py'])
-    os.startfile(r'D:\Github\Client_Server\threadClient.py')
+    for i in range(100):
+        os.startfile(r'D:\Github\Client_Server\threadClient.py')
 
     def handle(self):
         #os.startfile(r'D:\Github\Client_Server\threadClient.py')
-
-        command = input("Please enter the command 'start_scan' for scanning files in target directory: ").encode()
-        #command = b'start_scan'
+        command = b'start_scan'
+        #command = input("Please enter the command 'start_scan' for scanning files in target directory: ").encode()
         print(' Send to client: {}'.format(command.decode()))
         self.request.sendall(command)
         client_response = self.request.recv(1024)  # .strip()

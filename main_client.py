@@ -27,7 +27,7 @@ if server_message.decode('utf-8') == 'start_scan':
     print(message_start_script)
     server_socket.send(message_start_script.encode())
 else:
-    server_socket.send('uknow_request'.encode())
-    print('uknow_request')
+    server_socket.send('unknown_request'.encode())
+    print('unknown_request')
 
 server_socket.close()
