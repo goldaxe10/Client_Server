@@ -1,6 +1,4 @@
 import socketserver
-import os
-import subprocess
 import datetime
 
 
@@ -9,8 +7,6 @@ class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
 
 class EchoTCPHandler(socketserver.BaseRequestHandler):
-    datetoday = datetime.datetime.today().strftime(
-        "%d-%m-%Y_%Hh%Mm%Ss")  # + "_" + datetime.datetime.today().strftime("%H:%M:%S")
 
     def handle(self):
         datetoday = datetime.datetime.today().strftime(
